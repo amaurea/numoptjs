@@ -1,7 +1,7 @@
 // This is a Javascript port of scipy's implementation of Powell's conjugate direction method,
 // based on the file optimize.py by Travis E. Oliphant
 
-var optimize = (function(){
+var numopt = (function(){
 
 	function powell(func, x0, opts) {
 		'use strict'
