@@ -53,15 +53,19 @@ var numopt = (function(){
 			if(niter >= opts.maxiter) break;
 			if(!isFinite(fx) || !isFinite(fval)) break;
 			// Construct the extrapolated point
-			dir1   = x-x1;
-			var x2 = 2*x-1;
+			var dir1  = new Array(n);
+			var x2    = new Array(n);
+			for(var i = 0; i < n; i++) {
+				dir1[i] = x[i] - x1[i];
+				x2[i] = 2*x[i] - x1[i];
+			}
 			x1     = x.slice();
 			fx2    = func(x2);
 
 			if(fx > fx2) {
 				var t = 2*(fx + fx2 - 2*fval) * (fx-fval-delta)**2 - delta*(fx-fx2)**2;
 				if(t < 0) {
-					[fval, x, dir1, calls] = linesearch_powell(func, x, dir1, {tol:opts.xtol*100, fval:fval});
+					[x, fval, dir1, calls] = linesearch_powell(func, x, dir1, {tol:opts.xtol*100, fval:fval});
 					ncall += calls;
 					if(any_nonzero(dir1)) {
 						dirs[bigind] = dirs[dirs.length-1];
